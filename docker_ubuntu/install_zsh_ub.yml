@@ -49,4 +49,4 @@
         depth: 1
 
     - name: edit the .zshrc file to update the config
-      shell: sed -i 's/plugins=(git)/plugins=(zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete)/' /home/adi/.zshrc
+      shell: sed -i 's/plugins=(git)/plugins=(git colored-man-pages zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete)/' /home/adi/.zshrc
