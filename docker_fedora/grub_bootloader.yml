@@ -1,0 +1,15 @@
+---
+  - name: Install the GRUB Bootloader theme
+    become: true
+    hosts: localhost
+    vars:
+      user_path: /home/adi/
+    tasks:
+      - name: get the theme from github
+        ansible.builtin.git:
+          repo: 'https://github.com/vinceliuice/grub2-themes.git'
+          dest: '{{ user_path }}Projects/grub2-themes/'
+
+      - name: run the install script
+        shell: 'cd {{ user_path }}Projects/grub2-themes/ && sudo ./install.sh -t vimix -i color -b'
+        
