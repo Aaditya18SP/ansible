@@ -1,0 +1,52 @@
+---
+- name: install zsh
+  hosts: localhost
+  tasks:
+    - name: Install zsh using apt
+      apt:
+        name: zsh
+        state: latest
+      become: true
+
+    - name: Install ohmyzsh
+      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --skip-chsh
+
+    - name: Make zsh the default shell
+      shell: chsh -s $(which zsh)
+      become: true
+
+    - name: Install zsh plugins for auto suggestions
+      become: true
+      apt:
+        name: zsh-autosuggestions
+        state: present
+    - name: Install zsh plugin for syntax highlighting
+      become: true
+      apt:
+        name: zsh-syntax-highlighting
+        state: present
+
+
+    - name : clone zsh autosuggestions
+      ansible.builtin.git:
+        repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+        dest:  ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+
+    - name : clone zsh syntax highlightin
+      ansible.builtin.git:
+        repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+        dest:  ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+
+    - name : Clone fast syntax highlighting
+      ansible.builtin.git:
+        repo: 'https://github.com/zdharma-continuum/fast-syntax-highlighting.git'
+        dest:  ~/.oh-my-zsh/custom/plugins/fast-syntax-highlighting
+
+    - name: Clone zsh autocomplete
+      ansible.builtin.git:
+        repo: 'https://github.com/marlonrichert/zsh-autocomplete.git'
+        dest:  ~/.oh-my-zsh/custom/plugins/zsh-autocomplete
+        depth: 1
+
+    - name: edit the .zshrc file to update the config
+      shell: sed -i 's/plugins=(git)/plugins=(zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete)/' /home/adi/.zshrc
