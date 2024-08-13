@@ -1,0 +1,27 @@
+---
+  - name: Setup HP15s
+    hosts: localhost
+    pre_tasks:
+      - name: Update dnf cache
+        become: true
+        dnf:
+          update_cache: true
+        tags:
+          - zsh
+          - brightness
+          - grub
+    tasks: 
+      - name: Configure Zsh
+        include_tasks: ./install_zsh_fed.yml
+        tags: zsh
+
+      - name: Congfigure Brightness
+        include_tasks: ./configure_brightness.yml
+        tags: brightness
+
+      - name: Configure Bootloader
+        tags: grub
+        vars:
+          user_path: /home/adi
+        include_tasks: ./grub_bootloader.yml
+        

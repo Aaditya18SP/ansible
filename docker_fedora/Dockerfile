@@ -15,6 +15,5 @@ USER ${user}
 WORKDIR /home/${user}/
 
 
-COPY --chown=${user} ./install_zsh_fed.yml /home/${user}/Ansible/
-COPY --chown=${user} ./configure_brightness.yml /home/${user}/Ansible/ 
-COPY --chown=${user} ./grub_bootloader.yml /home/${user}/Ansible/ 
+COPY --chown=${user} ./ /home/${user}/Ansible/
+

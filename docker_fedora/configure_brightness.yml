@@ -1,20 +1,23 @@
----
-  - name: Configure Brightness on my HP15s laptop running on Fedora 40 and using i3wm
-    become: true
-    hosts: localhost
-    tasks:
-      - name: get the xorg.conf package from my Dotfiles repo
-        ansible.builtin.git:
-          repo: 'https://github.com/Aaditya18SP/Dotfiles.git' 
-          dest: ~/Projects/Dotfiles/
+- name: get the xorg.conf package from my Dotfiles repo
+  tags: brightness
+  ansible.builtin.git:
+    repo: 'https://github.com/Aaditya18SP/Dotfiles.git' 
+    dest: ~/Projects/Dotfiles/
 
-      - name: download xbacklight package to control the display brightness
-        dnf:
-          name: xbacklight
-          state: latest
+- name: download xbacklight package to control the display brightness
+  tags: brightness
+  become: true
+  dnf:
+    name: xbacklight
+    state: latest
 
-      - name: find the brightness file and create a symbolic link to it in the /sys/class/backlight directory
-        shell: sudo ln -s $(sudo find /sys/ -type f -iwholename '*/intel_backlight/brightness') /sys/class/backlight 
-   
-      - name: create an symbolic link to the xorg.conf file from the dotfiles file
-        shell: sudo ln -s ~/Projects/Dotfiles/xorg.conf /etc/X11/
+- name: find the brightness file and create a symbolic link to it in the /sys/class/backlight directory
+  become: true
+  shell: sudo ln -s $(sudo find /sys/ -type f -iwholename '*/intel_backlight/brightness') /sys/class/backlight 
+  tags: brightness
+  
+
+- name: create an symbolic link to the xorg.conf file from the dotfiles file
+  become: true
+  tags: brightness
+  shell: sudo ln -s ~/Projects/Dotfiles/xorg.conf /etc/X11/
