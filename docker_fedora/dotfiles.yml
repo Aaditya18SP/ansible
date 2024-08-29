@@ -1,0 +1,22 @@
+- name: Pull the Dotfiles repo from git
+  ansible.builtin.git:
+    repo: 'https://github.com/Aaditya18SP/Dotfiles.git'
+    dest: /home/{{ user }}/Projects/Dotfiles/
+  tags: dotfiles
+- name: Install gnu stow and i3
+  become: true
+  tags: dotfiles
+  dnf: 
+    name:
+      - stow
+      - i3
+    state: latest
+
+- name: Setup ssh
+  shell: echo "write a bash script to check whether the ssh directory exists and then stow"
+  tags: dotfiles
+  
+- name: setup i3
+  shell: echo "write a bash script to check whether the .config/i3 directory exists and then stow"
+  tags: dotfiles
+

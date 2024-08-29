@@ -10,6 +10,7 @@
           - zsh
           - brightness
           - grub
+          - dotfiles
     tasks: 
       - name: Configure Zsh
         include_tasks: ./install_zsh_fed.yml
@@ -24,4 +25,9 @@
         vars:
           user_path: /home/adi
         include_tasks: ./grub_bootloader.yml
-        
+      
+      - name: Configure all the programs using dot files
+        include_tasks: ./dotfiles.yml
+        tags: dotfiles
+        vars: 
+          user: adi 
